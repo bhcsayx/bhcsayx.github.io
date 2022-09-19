@@ -1,2 +1,2 @@
 
-[Visit My CV](/CV.pdf)
+[View My CV](/CV.pdf)
