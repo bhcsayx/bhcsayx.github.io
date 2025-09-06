@@ -36,6 +36,7 @@ void level1_4() {
 ## Level 5
 
 Again open kernel module in decompilers and it can be seen that still cmd code 1337 is neede, and the device_ioctl is executing arg a3 as a function. On the other hand there is a win() function that escalates privilege, so the solution is to find out the addr of win() by checking symbols in /proc/kallsyms under practice mode and input it the way similar to above levels.
+
 (To be honest I think this a bit counter-intuitive as you need to get in root mode first, get information and back to user mode and get root again...)
 
 ## Level 6
