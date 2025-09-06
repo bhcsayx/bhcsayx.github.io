@@ -11,4 +11,4 @@ tags:
 Kernel Security
 ======
 
-This is a series of writeups to introductory Linux Kernel security challenges on https://pwn.college. Since platform policy does not want full solutions get leaked so only core ideas and a few snippets are provided.
+This is a series of writeups to introductory Linux Kernel security challenges on <https://pwn.college>. Since platform policy does not want full solutions get leaked so just core ideas and a few snippets are provided.
