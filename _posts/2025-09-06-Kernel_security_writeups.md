@@ -45,6 +45,8 @@ Open kernel module in decompilers, it is taking an address(arg a2) and copying 4
 ## Level 7
 
 Follows the device_ioctl of kernel module:
+
+
 <img width="543" height="514" alt="image" src="https://github.com/user-attachments/assets/e8fa988a-5cdb-42c0-8007-367daac4a72a" />
 
 It can be noticed that for the input buffer a3, it is parsed in following format:
