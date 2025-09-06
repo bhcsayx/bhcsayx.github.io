@@ -8,7 +8,7 @@ tags:
   - pwn college
 ---
 
-This is a series of writeups to introductory Linux Kernel security challenges on <https://pwn.college>. Since platform policy does not want full solutions get leaked so just core ideas and a few snippets(not full exploits) are provided.
+This is a series of writeups to introductory Linux Kernel security challenges on <[kernel-security](https://pwn.college/system-security/kernel-security/)>. Since platform policy does not want full solutions get leaked so just core ideas and a few snippets(not full exploits) are provided.
 
 ## Level 1-4
 
