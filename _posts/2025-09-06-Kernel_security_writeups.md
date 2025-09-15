@@ -124,3 +124,15 @@ kernel_shellcode_len equ $ - kernel_shellcode
 Looking at the module, basically an int64 array with 33 elements(264 bytes in total) is initialized and last 8 bytes is set to be printk address, then module takes in 264 bytes from user and tries to print it in kernel. Clearly that this address can be overwritten so that control flow may be hijacked to other functions, so one solution is to use function run_cmd in kernel that takes in a command and executes. Use similar approach of checking /proc/kallsyms to find its address. Then the exploit could be "/bin/chmod 777 /flag" + padding in between + addr of run_cmd.
 
 For level 10 the logic is similar, but enabled kASLR. Notice that in kernel, last 21 bits are not randomized and fixed(compared with 12 for userspace). So to bypass this, instead of writing whole address obtained from symbol table, only write 5 nibbles(hex digits) and bruteforce the 16 possibilities for the 6th nibble from LSB, leaving rest of partial address unchanged.
+
+## Level 11
+Similar to level 8 of providing shellcode to kernel through a userspace binary, but this time the flag is loaded then deleted:
+<img width="690" height="136" alt="image" src="https://github.com/user-attachments/assets/9520e5bb-8a57-4ed0-80a7-091b1bad04f0" />
+<img width="442" height="364" alt="image" src="https://github.com/user-attachments/assets/876bc715-ad5d-479b-801d-638791ac211c" />
+<img width="395" height="53" alt="image" src="https://github.com/user-attachments/assets/fa8cc041-b30a-4e21-9bc2-660e85e2b9f0" />
+
+Therefore the solution is that inside the kernel shellcode, execute a python script that load the process memory (by fetching the process with "babykernel_xxx" to get pid, and load file /proc/pid/mem) through run_cmd. Notice that the flag is loaded to a certain address (0x404040) and this can be obtained through f.seek().
+
+## Level 12
+The only difference compared with level 11 is that the child process containing flag is exited:
+<img width="340" height="86" alt="image" src="https://github.com/user-attachments/assets/6e841b41-a21b-4732-ac10-fbdf4947aeef" />
