@@ -1,5 +1,5 @@
 ---
-title: 'Kernel Security'
+title: 'Kernel security module on pwn college'
 date: 2025-09-06
 permalink: /posts/2025/09/kernel-security/
 tags:
@@ -8,7 +8,7 @@ tags:
   - pwn college
 ---
 
-This is a series of writeups to introductory Linux Kernel security challenges on <[kernel-security](https://pwn.college/system-security/kernel-security/)>. Since platform policy does not want full solutions get leaked so just core ideas and a few snippets(not full exploits) are provided.
+This is a series of writeups to introductory Linux Kernel security challenges on [kernel-security](https://pwn.college/system-security/kernel-security/). Since platform policy does not want full solutions get leaked so just core ideas and a few snippets(not full exploits) are provided.
 
 ## Level 1-4
 
