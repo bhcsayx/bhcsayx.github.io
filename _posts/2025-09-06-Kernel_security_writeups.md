@@ -117,3 +117,8 @@ flag_path: db "/flag", 0
 flag_buf: times 256 db 0
 kernel_shellcode_len equ $ - kernel_shellcode
 ```
+## Level 9
+
+<img width="623" height="366" alt="image" src="https://github.com/user-attachments/assets/a5ce9afb-bad2-4155-a61a-7d808b40539c" />
+
+Looking at the module, basically an int64 array with 33 elements(264 bytes in total) is initialized and last 8 bytes is set to be printk address, then module takes in 264 bytes from user and tries to print it in kernel. Clearly that this address can be overwritten so that control flow may be hijacked to other functions, so one solution is to use function run_cmd in kernel that takes in a command and executes. Use similar approach of checking /proc/kallsyms to find its address. Then the exploit could be "/bin/chmod 777 /flag" + padding in between + addr of run_cmd.
