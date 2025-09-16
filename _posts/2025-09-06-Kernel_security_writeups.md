@@ -134,5 +134,5 @@ Similar to level 8 of providing shellcode to kernel through a userspace binary, 
 Therefore the solution is that inside the kernel shellcode, execute a python script that load the process memory (by fetching the process with "babykernel_xxx" to get pid, and load file /proc/pid/mem) through run_cmd. Notice that the flag is loaded to a certain address (0x404040) and this can be obtained through f.seek().
 
 ## Level 12
-The only difference compared with level 11 is that the child process containing flag is exited:
 <img width="340" height="86" alt="image" src="https://github.com/user-attachments/assets/6e841b41-a21b-4732-ac10-fbdf4947aeef" />
+The only difference compared with level 11 is that the child process containing flag is exited:
