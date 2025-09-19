@@ -150,3 +150,4 @@ for (i = 0x0; i < 1024 * TOTAL_MEM - 8; i += 0x1) {
 ```
 (TOTAL_MEM can be accessed from free command)
 (To see its assembly, put this into a kernel module and use 'vm build' command to load it)
+(Notice that the flag file is deleted and the process exited, the place may be overwritten and necessary to run a few times)
