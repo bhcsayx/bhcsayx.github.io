@@ -135,4 +135,18 @@ Therefore the solution is that inside the kernel shellcode, execute a python scr
 
 ## Level 12
 <img width="340" height="86" alt="image" src="https://github.com/user-attachments/assets/6e841b41-a21b-4732-ac10-fbdf4947aeef" />
-The only difference compared with level 11 is that the child process containing flag is exited:
+The only difference compared with level 11 is that the child process containing flag is exited. 
+Therefore the solution is to scan the physical memory for all pages offset 0x40 to see if the flag is not overwritten, in details refer to this video: https://www.youtube.com/watch?v=gITPImnJvNM
+
+Overall exploit structure is similar to level 8, where user first sends kernel shellcode, and the kernel shellcode performs the memory scan, refer to this snippet:
+
+```
+for (i = 0x0; i < 1024 * TOTAL_MEM - 8; i += 0x1) {
+  unsigned long *mapped = phys_to_virt(i);
+  if (*mapped == 0x6c6c6f632e6e7770) {
+    printk(KERN_INFO "Found flag at %p: %s\n", mapped, (char*)mapped);
+  }
+}
+```
+(TOTAL_MEM can be accessed from free command)
+(To see its assembly, put this into a kernel module and use 'vm build' command to load it)
